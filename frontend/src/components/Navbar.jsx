@@ -1,5 +1,5 @@
-// src/components/Navbar.jsx
 import { useState } from "react";
+import { Link } from "react-router-dom"; // Import Link
 import { Button } from "@/components/ui/button";
 import logotop from "../assets/clear-logo.png";
 
@@ -7,64 +7,62 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="bg-green-700 text-yellow-300 shadow-2xl fixed w-full z-50 transition-all duration-500">
-      <div className="max-w-7xl mx-auto px-6 md:px-20">
-        <div className="flex justify-between items-center h-16 relative">
-          {/* Logo - centered on mobile */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 md:static md:transform-none flex items-center space-x-3 cursor-pointer group">
+    <nav className="fixed z-50 w-full text-yellow-300 transition-all duration-500 bg-green-700 shadow-2xl">
+      <div className="px-6 mx-auto max-w-7xl md:px-20">
+        <div className="relative flex items-center justify-between h-16">
+          {/* Logo */}
+          <div className="absolute flex items-center space-x-3 transform -translate-x-1/2 cursor-pointer left-1/2 md:static md:transform-none group">
             <div className="relative">
               {/* Glowing circle */}
-              <div className="absolute inset-0 bg-yellow-400/30 blur-md rounded-full scale-125 group-hover:scale-150 transition-transform duration-500"></div>
+              <div className="absolute inset-0 transition-transform duration-500 scale-125 rounded-full bg-yellow-400/30 blur-md group-hover:scale-150"></div>
 
               {/* Logo image */}
               <img
                 src={logotop}
                 alt="Murājaʿah Logo"
-                className="relative w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-yellow-400 shadow-lg shadow-yellow-300/20 group-hover:rotate-6 transition-transform duration-500"
+                className="relative w-10 h-10 transition-transform duration-500 border-2 border-yellow-400 rounded-full shadow-lg md:w-12 md:h-12 shadow-yellow-300/20 group-hover:rotate-6"
               />
             </div>
 
-            <a
-              href="/"
-              className="text-2xl md:text-3xl font-extrabold tracking-wide group-hover:text-white transition-colors duration-300"
+            {/* Fixed: Use Link instead of <a> for logo */}
+            <Link
+              to="/"
+              className="text-2xl font-extrabold tracking-wide transition-colors duration-300 md:text-3xl group-hover:text-white"
             >
               Murājaʿah
-            </a>
+            </Link>
           </div>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex space-x-10 lg:space-x-14 items-center text-lg lg:text-xl font-medium">
-            <a
-              href="#features"
-              className="relative hover:text-white transition-all duration-300 before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-yellow-300 before:transition-all before:duration-300 hover:before:w-full"
-            >
-              Features
-            </a>
-            <a
-              href="#about"
-              className="relative hover:text-white transition-all duration-300 before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-yellow-300 before:transition-all before:duration-300 hover:before:w-full"
-            >
-              About
-            </a>
-            <a
-              href="#contact"
-              className="relative hover:text-white transition-all duration-300 before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-yellow-300 before:transition-all before:duration-300 hover:before:w-full"
-            >
-              Contact
-            </a>
+          {/* Desktop Menu - FIXED */}
+          <div className="items-center hidden space-x-10 text-lg font-medium md:flex lg:space-x-14 lg:text-xl">
+            {[
+              { label: "Home", href: "/" }, // Changed from "#home" to "/"
+              { label: "About", href: "/about" }, // Changed from "#about" to "/about"
+              { label: "Services", href: "/services" }, // Changed to actual route
+              { label: "Contact", href: "/contact" }, // Changed to actual route
+            ].map((item) => (
+              <Link
+                key={item.label}
+                to={item.href}
+                className="relative hover:text-white transition-all duration-300 before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-yellow-300 before:transition-all before:duration-300 hover:before:w-full"
+              >
+                {item.label}
+              </Link>
+            ))}
+
             <Button
               size="sm"
-              className="bg-yellow-300 text-green-900 hover:bg-yellow-400 hover:shadow-lg hover:shadow-yellow-300/30 transition-all duration-300 rounded-full font-semibold px-6 py-2 text-base lg:text-lg"
+              className="px-6 py-2 text-base font-semibold text-green-900 transition-all duration-300 bg-yellow-300 rounded-full hover:bg-yellow-400 hover:shadow-lg hover:shadow-yellow-300/30 lg:text-lg"
             >
               Register
             </Button>
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden absolute right-10">
+          <div className="absolute md:hidden right-10">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="focus:outline-none text-yellow-300 hover:text-white transition-colors duration-300"
+              className="text-yellow-300 transition-colors duration-300 focus:outline-none hover:text-white"
             >
               {isOpen ? (
                 <svg
@@ -101,34 +99,32 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu - FIXED */}
         <div
           className={`md:hidden overflow-hidden transition-all duration-500 ${
             isOpen ? "max-h-96 opacity-100 mt-2 mb-4" : "max-h-0 opacity-0"
           }`}
         >
-          <div className="flex flex-col items-center space-y-4 py-5 bg-green-800/90 rounded-xl shadow-lg text-lg">
-            <a
-              href="#features"
-              className="text-yellow-200 hover:text-white transition-colors duration-300"
-            >
-              Features
-            </a>
-            <a
-              href="#about"
-              className="text-yellow-200 hover:text-white transition-colors duration-300"
-            >
-              About
-            </a>
-            <a
-              href="#contact"
-              className="text-yellow-200 hover:text-white transition-colors duration-300"
-            >
-              Contact
-            </a>
+          <div className="flex flex-col items-center py-5 space-y-4 text-lg shadow-lg bg-green-800/90 rounded-xl">
+            {[
+              { label: "Home", href: "/" }, // Changed from "#home" to "/"
+              { label: "About", href: "/about" }, // Changed from "#about" to "/about"
+              { label: "Services", href: "/services" }, // Changed to actual route
+              { label: "Contact", href: "/contact" }, // Changed to actual route
+            ].map((item) => (
+              <Link
+                key={item.label}
+                to={item.href}
+                className="text-yellow-200 transition-colors duration-300 hover:text-white"
+                onClick={() => setIsOpen(false)} // Close menu when clicking a link
+              >
+                {item.label}
+              </Link>
+            ))}
+
             <Button
               size="sm"
-              className="bg-yellow-300 text-green-900 hover:bg-yellow-400 hover:shadow-lg hover:shadow-yellow-300/30 transition-all duration-300 rounded-full font-semibold px-6 py-2 text-base"
+              className="px-6 py-2 text-base font-semibold text-green-900 transition-all duration-300 bg-yellow-300 rounded-full hover:bg-yellow-400 hover:shadow-lg hover:shadow-yellow-300/30"
             >
               Register
             </Button>
